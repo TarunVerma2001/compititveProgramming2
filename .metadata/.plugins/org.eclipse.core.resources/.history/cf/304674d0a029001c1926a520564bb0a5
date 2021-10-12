@@ -1,0 +1,44 @@
+import java.util.Scanner;
+
+public class dptest {
+	static Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		solve();
+	}
+	static int rec(int i, int n, int arr[], int osf, int y, int dp[][]) {
+		//base case
+		if(i == n) {
+			return 0;
+		}
+		
+		if(dp[i][osf] != -1) {
+			return dp[i][osf];
+		}
+		//rec relation
+		if(osf < 2) {
+			int a = arr[i] + rec(i+1, n, arr, osf, y, dp);
+			int b = Math.min(y, arr[i]) + rec(i+1, n, arr, osf+1, y, dp);
+			return dp[i][osf] = Math.min(a, b);
+		} else {
+			osf = 0;
+			return dp[i][osf] = arr[i] + rec(i+1, n, arr, osf, y, dp);
+		}
+		 
+		
+	}
+	
+	public static void solve() {
+		int n = sc.nextInt();
+		int y = sc.nextInt();
+		int arr[] = sc.readArray(n);
+		int dp[][] = new int[n][3];
+		for(int i =0;i<n;i++) {
+			for(int j =0;j<3;j++) {
+				dp[i][j] = -1;
+			}
+		}
+		System.out.println(rec(1, n-1, arr, 0, y, dp) + arr[0] + arr[n-1]);
+		
+	}
+}
